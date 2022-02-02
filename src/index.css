@@ -4,6 +4,8 @@
 
 html {
   font-family: sans-serif;
+  /* Customizing the style of the app through here! */
+  background: #1f1f1f;
 }
 
 body {
