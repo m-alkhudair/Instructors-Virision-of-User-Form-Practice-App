@@ -21,7 +21,7 @@ const AddUser = (props) => {
       return;
     }
 
-    console.log(enteredUsername, enteredAge);
+    props.onAddUser(enteredUsername, enteredAge);
 
     // for resetting; but in order for this to work we have to two-way bind, using the value attribute in the input tags
     setEnteredUsername("");
