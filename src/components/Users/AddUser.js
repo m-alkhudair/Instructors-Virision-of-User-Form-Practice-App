@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useState }  from "react";
 
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import classes from './AddUser.module.css';
 
 const AddUser = (props) => {
+
+  const [enteredUsername, setEnteredUsername] = useState('')
+  const [enteredAge, setEnteredAge] = useState('')
+
   const addUserHandler = (event) => {
     // preventdefault to prevent the behavior for this type of event, in this case that a request would be sent.
     event.preventDefault();
+    console.log(enteredUsername, enteredAge);
+  };
+
+  // To record each key stroke!
+  const usernameChangeHandler = (event) => {
+    setEnteredUsername(event.target.value);
+  };
+
+  const ageChangeHandler = (event) => {
+    setEnteredAge(event.target.value);
   };
 
   return (
@@ -17,9 +31,9 @@ const AddUser = (props) => {
       <form onSubmit={addUserHandler}>
         {/* For accessibility add the "for" and "id" attributes to the lable and input respectfully, helps people with screen readers. but take note of how we write the for attribute, because for is a reserved js word and we're using JSX. This is how we connect the label to the input */}
         <label htmlFor="username">Username</label>
-        <input id="username" type="text"></input>
+        <input id="username" type="text" onChange={usernameChangeHandler}></input>
         <label htmlFor="age">Age (Years)</label>
-        <input id="age" type="number"></input>
+        <input id="age" type="number" onChange={ageChangeHandler}></input>
         <Button type="submit">Add User</Button>
       </form>
     </Card>
