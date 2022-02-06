@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import ErrorModal from "../UI/ErrorModal";
+import Wrapper from "../Helpers/Wrapper";
 import classes from "./AddUser.module.css";
 
 const AddUser = (props) => {
@@ -58,7 +59,7 @@ const AddUser = (props) => {
   return (
     // Take Note of the className attribute, since this is a custom component, it can't use the real className attribut we normally use with built-in html elements. In this case it will work as props
     // So the next step is to go back to the Card.js component and make sure to accept the incoming className prop
-    <div>
+    <Wrapper>
       {/* if 'error' is truthy (i.e has a value rather than undefined or null) it will render */}
       {error && (
         <ErrorModal
@@ -87,7 +88,7 @@ const AddUser = (props) => {
           <Button type="submit">Add User</Button>
         </form>
       </Card>
-    </div>
+    </Wrapper>
   );
 };
 
