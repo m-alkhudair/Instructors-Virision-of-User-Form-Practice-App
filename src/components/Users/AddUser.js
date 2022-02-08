@@ -9,6 +9,11 @@ import React, { useState, useRef } from "react";
 // sate is generally for changing values
 // Ref is generally for reading a logging values
 
+
+// Controlled components Vs Uncontrolled components, this is usually more associated with form/input components
+// If we access values with ref = uncontrolled component; because their internal sate/value is not controlled by react. relying on default behavior of element and we just fetch it and we get access to the native DOM
+// If we're using sate = controlled component, controlling with react
+
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 import ErrorModal from "../UI/ErrorModal";
