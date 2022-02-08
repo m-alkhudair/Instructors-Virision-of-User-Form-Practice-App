@@ -1,4 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+
+// In this section we will use useRef! as an alternative to useStata
+// Refs allow us to gain access to other DOM elements and work with them
+// For this we will comment out evetything related to state (in the form inputs). because the instructor feels that there is some redundency ex updating the state with each keystroke, because we only need the data when we submit the form
+// Refs are a bit simpler and are better if you just want to read the data
+// Step one: set up the connection with html element using the ref attribute 
+// Either sate or ref is good in this case.
+// sate is generally for changing values
+// Ref is generally for reading a logging values
 
 import Card from "../UI/Card";
 import Button from "../UI/Button";
@@ -7,8 +16,14 @@ import Wrapper from "../Helpers/Wrapper";
 import classes from "./AddUser.module.css";
 
 const AddUser = (props) => {
-  const [enteredUsername, setEnteredUsername] = useState("");
-  const [enteredAge, setEnteredAge] = useState("");
+
+  // initialized to undefined
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
+  // when the page loads there will be real DOM elements stored in the ref values above!
+
+  // const [enteredUsername, setEnteredUsername] = useState("");
+  // const [enteredAge, setEnteredAge] = useState("");
 
   // Currenty set to "undefined" a falsy value
   const [error, setError] = useState();
@@ -17,8 +32,17 @@ const AddUser = (props) => {
     // preventdefault to prevent the behavior for this type of event, in this case that a request would be sent.
     event.preventDefault();
 
+    // REFS!:
+    console.log(nameInputRef); // check out the object in the console, The real DOM Node, it has a current prop that has data such as the value, 
+    console.log(nameInputRef.current.value);
+
+    // IMPORTANT NOTE FROM SECTION ABOUT REFS:
+    // The variables in the conditionals are changed to use refs instead of state.
+    const enteredName = nameInputRef.current.value;
+    const enteredUserAge = ageInputRef.current.value;
+
     // Form Validation
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
+    if (enteredName.trim().length === 0 || enteredUserAge.trim().length === 0) {
       setError({
         title: "Invalid Input",
         message: "Please enter a valid name or age (non-empty values).",
@@ -27,7 +51,7 @@ const AddUser = (props) => {
       return;
     }
     // the plus sign is to force conversion to number because enteredAge is a string
-    if (+enteredAge < 1) {
+    if (+enteredUserAge < 1) {
       setError({
         title: "Invalid Age",
         message: "Please enter a valid age (> 0).",
@@ -35,21 +59,25 @@ const AddUser = (props) => {
       return;
     }
 
-    props.onAddUser(enteredUsername, enteredAge);
+    props.onAddUser(enteredName, enteredUserAge);
 
     // for resetting; but in order for this to work we have to two-way bind, using the value attribute in the input tags
-    setEnteredUsername("");
-    setEnteredAge("");
+    // setEnteredUsername("");
+    // setEnteredAge("");
+
+    // NEW RESETTING LOGIC; in this case we can manipulate the DOM but genrally discouraged to do so in most cases (w/o react) but this case it makes sense and is harmless. just resetting val.
+    nameInputRef.current.value = '';
+    ageInputRef.current.value= '';
   };
 
   // To record each key stroke!
-  const usernameChangeHandler = (event) => {
-    setEnteredUsername(event.target.value);
-  };
+  // const usernameChangeHandler = (event) => {
+  //   setEnteredUsername(event.target.value);
+  // };
 
-  const ageChangeHandler = (event) => {
-    setEnteredAge(event.target.value);
-  };
+  // const ageChangeHandler = (event) => {
+  //   setEnteredAge(event.target.value);
+  // };
 
   // To rest the error to a falsy value (null or undefined..etc)
   const errorHandler = () => {
@@ -75,15 +103,19 @@ const AddUser = (props) => {
           <input
             id="username"
             type="text"
-            value={enteredUsername}
-            onChange={usernameChangeHandler}
+            // The 2 attribute below are related to state so we dont need anymore
+            // value={enteredUsername}
+            // onChange={usernameChangeHandler}
+            ref={nameInputRef}
           ></input>
           <label htmlFor="age">Age (Years)</label>
           <input
             id="age"
             type="number"
-            value={enteredAge}
-            onChange={ageChangeHandler}
+            // The 2 attribute below are related to state so we dont need anymore
+            // value={enteredAge}
+            // onChange={ageChangeHandler}
+            ref={ageInputRef}
           ></input>
           <Button type="submit">Add User</Button>
         </form>
